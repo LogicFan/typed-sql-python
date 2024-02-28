@@ -6,7 +6,7 @@ setup(
     version="0.0.1",
     description="A strong typed SQL query builder",
     author="Yongda Fan",
-    install_requires=[],
+    install_requires=["typing_extensions>=4.10,<5"],
     setup_requires=[],
     tests_require=[],
     test_suite="test",
