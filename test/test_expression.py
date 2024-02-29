@@ -1,7 +1,7 @@
+import unittest
 from typed_sql.data.expression import Expression
 from typed_sql.query.as_query import QueryStr
 from typed_sql.query.context import QueryContext
-import unittest
 
 ctx = QueryContext()
 e1 = Expression[int](lambda _: QueryStr("e1"))
@@ -25,3 +25,14 @@ class ExpressionText(unittest.TestCase):
         self.assertEqual((e4 != e5)._query(ctx), "(e4) != (e5)")
         self.assertEqual((e5 <= e1)._query(ctx), "(e5) <= (e1)")
         self.assertEqual((e1 >= e2)._query(ctx), "(e1) >= (e2)")
+
+    def test_null(self):
+        self.assertEqual(e1.IS_NULL()._query(ctx), "(e1) IS NULL")
+        self.assertEqual(e3.IS_NOT_NULL()._query(ctx), "(e3) IS NOT NULL")
+
+    def test_arithmetic(self):
+        self.assertEqual((e1 + e2)._query(ctx), "(e1) + (e2)")
+        self.assertEqual((e2 - e3)._query(ctx), "(e2) - (e3)")
+        self.assertEqual((e3 * e4)._query(ctx), "(e3) * (e4)")
+        self.assertEqual((e4 / e5)._query(ctx), "(e4) / (e5)")
+        self.assertEqual((e5 // e1)._query(ctx), "(e5) DIV (e1)")
